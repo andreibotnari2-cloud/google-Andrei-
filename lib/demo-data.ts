@@ -22,18 +22,77 @@ export const MCC_ACCOUNTS = [
   },
 ];
 
-export const ACCOUNT_METRICS: Record<string, {
-  spend: number; clicks: number; impressions: number;
-  conversions: number; ctr: number; cpc: number; cpa: number; roas: number;
+export type ConvCategory = { name: string; conversions: number; prevConversions: number; cost: number };
+
+export type AccountData = {
+  spend: number; prevSpend: number;
+  clicks: number; impressions: number; ctr: number; cpc: number;
+  conversions: number; prevConversions: number;
+  cpa: number; prevCpa: number;
   budgetTotal: number; activeCampaigns: number;
-}> = {
-  '101-234-5678': { spend: 18420, clicks: 9840, impressions: 284200, conversions: 218, ctr: 3.46, cpc: 1.87, cpa: 84.50, roas: 4.8, budgetTotal: 24000, activeCampaigns: 3 },
-  '102-345-6789': { spend: 5240,  clicks: 2680, impressions: 74800,  conversions: 62,  ctr: 3.58, cpc: 1.96, cpa: 84.52, roas: 3.2, budgetTotal: 6000,  activeCampaigns: 2 },
-  '103-456-7890': { spend: 3280,  clicks: 1540, impressions: 98200,  conversions: 38,  ctr: 1.57, cpc: 2.13, cpa: 86.32, roas: 2.8, budgetTotal: 4000,  activeCampaigns: 1 },
-  '104-567-8901': { spend: 0,     clicks: 0,    impressions: 0,       conversions: 0,   ctr: 0,    cpc: 0,    cpa: 0,     roas: 0,   budgetTotal: 8000,  activeCampaigns: 0 },
-  '201-234-5678': { spend: 4820,  clicks: 2240, impressions: 62400,  conversions: 52,  ctr: 3.59, cpc: 2.15, cpa: 92.69, roas: 3.6, budgetTotal: 5500,  activeCampaigns: 2 },
-  '202-345-6789': { spend: 3940,  clicks: 1920, impressions: 54600,  conversions: 41,  ctr: 3.52, cpc: 2.05, cpa: 96.10, roas: 2.9, budgetTotal: 4500,  activeCampaigns: 2 },
-  '203-456-7890': { spend: 2180,  clicks: 890,  impressions: 28400,  conversions: 28,  ctr: 3.13, cpc: 2.45, cpa: 77.86, roas: 5.1, budgetTotal: 2500,  activeCampaigns: 1 },
+  convCategories: ConvCategory[];
+};
+
+export const ACCOUNT_METRICS: Record<string, AccountData> = {
+  '101-234-5678': {
+    spend: 18420, prevSpend: 15680, clicks: 9840, impressions: 284200, ctr: 3.46, cpc: 1.87,
+    conversions: 218, prevConversions: 289, cpa: 84.50, prevCpa: 54.25,
+    budgetTotal: 24000, activeCampaigns: 3,
+    convCategories: [
+      { name: 'Achiziții', conversions: 142, prevConversions: 198, cost: 47.80 },
+      { name: 'Formulare', conversions: 58,  prevConversions: 68,  cost: 112.50 },
+      { name: 'Apeluri',   conversions: 18,  prevConversions: 23,  cost: 182.00 },
+    ],
+  },
+  '102-345-6789': {
+    spend: 5240, prevSpend: 4820, clicks: 2680, impressions: 74800, ctr: 3.58, cpc: 1.96,
+    conversions: 62, prevConversions: 71, cpa: 84.52, prevCpa: 67.89,
+    budgetTotal: 6000, activeCampaigns: 2,
+    convCategories: [
+      { name: 'Lead-uri',  conversions: 42, prevConversions: 51, cost: 72.40 },
+      { name: 'Apeluri',  conversions: 20, prevConversions: 20, cost: 120.00 },
+    ],
+  },
+  '103-456-7890': {
+    spend: 3280, prevSpend: 2940, clicks: 1540, impressions: 98200, ctr: 1.57, cpc: 2.13,
+    conversions: 38, prevConversions: 42, cpa: 86.32, prevCpa: 70.00,
+    budgetTotal: 4000, activeCampaigns: 1,
+    convCategories: [
+      { name: 'Formulare contact', conversions: 38, prevConversions: 42, cost: 86.32 },
+    ],
+  },
+  '104-567-8901': {
+    spend: 0, prevSpend: 6240, clicks: 0, impressions: 0, ctr: 0, cpc: 0,
+    conversions: 0, prevConversions: 84, cpa: 0, prevCpa: 74.29,
+    budgetTotal: 8000, activeCampaigns: 0,
+    convCategories: [],
+  },
+  '201-234-5678': {
+    spend: 4820, prevSpend: 4210, clicks: 2240, impressions: 62400, ctr: 3.59, cpc: 2.15,
+    conversions: 52, prevConversions: 61, cpa: 92.69, prevCpa: 69.02,
+    budgetTotal: 5500, activeCampaigns: 2,
+    convCategories: [
+      { name: 'Rezervări',  conversions: 34, prevConversions: 41, cost: 78.50 },
+      { name: 'Formulare',  conversions: 18, prevConversions: 20, cost: 130.00 },
+    ],
+  },
+  '202-345-6789': {
+    spend: 3940, prevSpend: 3580, clicks: 1920, impressions: 54600, ctr: 3.52, cpc: 2.05,
+    conversions: 41, prevConversions: 48, cpa: 96.10, prevCpa: 74.58,
+    budgetTotal: 4500, activeCampaigns: 2,
+    convCategories: [
+      { name: 'Comenzi',   conversions: 27, prevConversions: 32, cost: 84.00 },
+      { name: 'Apeluri',   conversions: 14, prevConversions: 16, cost: 121.00 },
+    ],
+  },
+  '203-456-7890': {
+    spend: 2180, prevSpend: 1940, clicks: 890, impressions: 28400, ctr: 3.13, cpc: 2.45,
+    conversions: 28, prevConversions: 31, cpa: 77.86, prevCpa: 62.58,
+    budgetTotal: 2500, activeCampaigns: 1,
+    convCategories: [
+      { name: 'Înscrieri curs', conversions: 28, prevConversions: 31, cost: 77.86 },
+    ],
+  },
 };
 
 export const OVERVIEW_METRICS = {
