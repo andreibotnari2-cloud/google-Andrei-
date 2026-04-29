@@ -207,16 +207,52 @@ function AccountCard({
       </div>
 
       {/* Secondary metrics */}
-      <div className="flex items-center gap-6 px-5 py-2.5 bg-slate-50 border-t border-slate-100">
+      <div className="grid grid-cols-7 divide-x divide-slate-100 border-t border-slate-100 bg-slate-50/60">
         {[
-          { label: 'Clicks', value: m.clicks > 0 ? m.clicks.toLocaleString() : '—' },
-          { label: 'Impressions', value: m.impressions > 0 ? m.impressions.toLocaleString() : '—' },
-          { label: 'CTR', value: m.ctr > 0 ? `${m.ctr.toFixed(2)}%` : '—' },
-          { label: 'CPC', value: m.cpc > 0 ? `${acc.currency} ${m.cpc.toFixed(2)}` : '—' },
+          {
+            label: 'Clicks',
+            value: m.clicks > 0 ? m.clicks.toLocaleString() : '—',
+            sub: null, color: 'text-slate-800',
+          },
+          {
+            label: 'Impresii',
+            value: m.impressions > 0 ? m.impressions.toLocaleString() : '—',
+            sub: null, color: 'text-slate-800',
+          },
+          {
+            label: 'CTR',
+            value: m.ctr > 0 ? `${m.ctr.toFixed(2)}%` : '—',
+            sub: m.ctr >= 3 ? 'Bun' : m.ctr > 0 ? 'Scăzut' : null,
+            color: m.ctr >= 3 ? 'text-green-600' : 'text-orange-500',
+          },
+          {
+            label: 'CPC',
+            value: m.cpc > 0 ? `${acc.currency} ${m.cpc.toFixed(2)}` : '—',
+            sub: null, color: 'text-slate-800',
+          },
+          {
+            label: 'Rata Conv.',
+            value: m.convRate > 0 ? `${m.convRate.toFixed(2)}%` : '—',
+            sub: m.convRate >= 2.5 ? 'Bun' : m.convRate > 0 ? 'Mediu' : null,
+            color: m.convRate >= 2.5 ? 'text-green-600' : 'text-orange-500',
+          },
+          {
+            label: 'Impr. Share',
+            value: m.searchImprShare > 0 ? `${m.searchImprShare.toFixed(1)}%` : '—',
+            sub: m.searchImprShare >= 60 ? 'Bun' : m.searchImprShare > 0 ? 'Pierderi' : null,
+            color: m.searchImprShare >= 60 ? 'text-green-600' : 'text-orange-500',
+          },
+          {
+            label: 'Poz. medie',
+            value: m.avgPosition > 0 ? m.avgPosition.toFixed(1) : '—',
+            sub: m.avgPosition > 0 && m.avgPosition <= 2 ? 'Top' : m.avgPosition > 0 ? 'Mediu' : null,
+            color: m.avgPosition > 0 && m.avgPosition <= 2 ? 'text-green-600' : 'text-orange-500',
+          },
         ].map(s => (
-          <div key={s.label}>
-            <p className="text-slate-400 text-[9px] uppercase tracking-wider">{s.label}</p>
-            <p className="text-slate-600 text-xs font-semibold mt-0.5">{s.value}</p>
+          <div key={s.label} className="px-4 py-3">
+            <p className="text-slate-400 text-[10px] uppercase tracking-wider font-medium">{s.label}</p>
+            <p className={`font-bold text-base mt-0.5 ${s.color}`}>{s.value}</p>
+            {s.sub && <p className={`text-[10px] mt-0.5 font-medium ${s.color} opacity-70`}>{s.sub}</p>}
           </div>
         ))}
       </div>

@@ -29,6 +29,7 @@ export type AccountData = {
   clicks: number; impressions: number; ctr: number; cpc: number;
   conversions: number; prevConversions: number;
   cpa: number; prevCpa: number;
+  convRate: number; searchImprShare: number; avgPosition: number;
   budgetTotal: number; activeCampaigns: number;
   convCategories: ConvCategory[];
 };
@@ -37,6 +38,7 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '101-234-5678': {
     spend: 18420, prevSpend: 15680, clicks: 9840, impressions: 284200, ctr: 3.46, cpc: 1.87,
     conversions: 218, prevConversions: 289, cpa: 84.50, prevCpa: 54.25,
+    convRate: 2.22, searchImprShare: 68.4, avgPosition: 2.1,
     budgetTotal: 24000, activeCampaigns: 3,
     convCategories: [
       { name: 'Achiziții', conversions: 142, prevConversions: 198, cost: 47.80 },
@@ -47,6 +49,7 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '102-345-6789': {
     spend: 5240, prevSpend: 4820, clicks: 2680, impressions: 74800, ctr: 3.58, cpc: 1.96,
     conversions: 62, prevConversions: 71, cpa: 84.52, prevCpa: 67.89,
+    convRate: 2.31, searchImprShare: 54.2, avgPosition: 2.8,
     budgetTotal: 6000, activeCampaigns: 2,
     convCategories: [
       { name: 'Lead-uri',  conversions: 42, prevConversions: 51, cost: 72.40 },
@@ -56,6 +59,7 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '103-456-7890': {
     spend: 3280, prevSpend: 2940, clicks: 1540, impressions: 98200, ctr: 1.57, cpc: 2.13,
     conversions: 38, prevConversions: 42, cpa: 86.32, prevCpa: 70.00,
+    convRate: 2.47, searchImprShare: 41.8, avgPosition: 3.4,
     budgetTotal: 4000, activeCampaigns: 1,
     convCategories: [
       { name: 'Formulare contact', conversions: 38, prevConversions: 42, cost: 86.32 },
@@ -64,12 +68,14 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '104-567-8901': {
     spend: 0, prevSpend: 6240, clicks: 0, impressions: 0, ctr: 0, cpc: 0,
     conversions: 0, prevConversions: 84, cpa: 0, prevCpa: 74.29,
+    convRate: 0, searchImprShare: 0, avgPosition: 0,
     budgetTotal: 8000, activeCampaigns: 0,
     convCategories: [],
   },
   '201-234-5678': {
     spend: 4820, prevSpend: 4210, clicks: 2240, impressions: 62400, ctr: 3.59, cpc: 2.15,
     conversions: 52, prevConversions: 61, cpa: 92.69, prevCpa: 69.02,
+    convRate: 2.32, searchImprShare: 49.6, avgPosition: 2.5,
     budgetTotal: 5500, activeCampaigns: 2,
     convCategories: [
       { name: 'Rezervări',  conversions: 34, prevConversions: 41, cost: 78.50 },
@@ -79,6 +85,7 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '202-345-6789': {
     spend: 3940, prevSpend: 3580, clicks: 1920, impressions: 54600, ctr: 3.52, cpc: 2.05,
     conversions: 41, prevConversions: 48, cpa: 96.10, prevCpa: 74.58,
+    convRate: 2.14, searchImprShare: 52.1, avgPosition: 2.9,
     budgetTotal: 4500, activeCampaigns: 2,
     convCategories: [
       { name: 'Comenzi',   conversions: 27, prevConversions: 32, cost: 84.00 },
@@ -88,6 +95,7 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
   '203-456-7890': {
     spend: 2180, prevSpend: 1940, clicks: 890, impressions: 28400, ctr: 3.13, cpc: 2.45,
     conversions: 28, prevConversions: 31, cpa: 77.86, prevCpa: 62.58,
+    convRate: 3.15, searchImprShare: 61.3, avgPosition: 2.2,
     budgetTotal: 2500, activeCampaigns: 1,
     convCategories: [
       { name: 'Înscrieri curs', conversions: 28, prevConversions: 31, cost: 77.86 },
