@@ -39,10 +39,14 @@ export default function KeywordsPage() {
       return true;
     });
     return [...list].sort((a, b) => {
-      const av = a[sortKey] as number;
-      const bv = b[sortKey] as number;
-      if (typeof av === 'string') return sortDir === 'asc' ? av.localeCompare(bv as unknown as string) : (bv as unknown as string).localeCompare(av);
-      return sortDir === 'asc' ? av - bv : bv - av;
+      const av = a[sortKey];
+      const bv = b[sortKey];
+      if (sortKey === 'keyword') {
+        return sortDir === 'asc'
+          ? (av as string).localeCompare(bv as string)
+          : (bv as string).localeCompare(av as string);
+      }
+      return sortDir === 'asc' ? (av as number) - (bv as number) : (bv as number) - (av as number);
     });
   }, [search, matchFilter, sortKey, sortDir]);
 
