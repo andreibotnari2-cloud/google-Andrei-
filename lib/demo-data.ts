@@ -22,6 +22,20 @@ export const MCC_ACCOUNTS = [
   },
 ];
 
+export const ACCOUNT_METRICS: Record<string, {
+  spend: number; clicks: number; impressions: number;
+  conversions: number; ctr: number; cpc: number; cpa: number; roas: number;
+  budgetTotal: number; activeCampaigns: number;
+}> = {
+  '101-234-5678': { spend: 18420, clicks: 9840, impressions: 284200, conversions: 218, ctr: 3.46, cpc: 1.87, cpa: 84.50, roas: 4.8, budgetTotal: 24000, activeCampaigns: 3 },
+  '102-345-6789': { spend: 5240,  clicks: 2680, impressions: 74800,  conversions: 62,  ctr: 3.58, cpc: 1.96, cpa: 84.52, roas: 3.2, budgetTotal: 6000,  activeCampaigns: 2 },
+  '103-456-7890': { spend: 3280,  clicks: 1540, impressions: 98200,  conversions: 38,  ctr: 1.57, cpc: 2.13, cpa: 86.32, roas: 2.8, budgetTotal: 4000,  activeCampaigns: 1 },
+  '104-567-8901': { spend: 0,     clicks: 0,    impressions: 0,       conversions: 0,   ctr: 0,    cpc: 0,    cpa: 0,     roas: 0,   budgetTotal: 8000,  activeCampaigns: 0 },
+  '201-234-5678': { spend: 4820,  clicks: 2240, impressions: 62400,  conversions: 52,  ctr: 3.59, cpc: 2.15, cpa: 92.69, roas: 3.6, budgetTotal: 5500,  activeCampaigns: 2 },
+  '202-345-6789': { spend: 3940,  clicks: 1920, impressions: 54600,  conversions: 41,  ctr: 3.52, cpc: 2.05, cpa: 96.10, roas: 2.9, budgetTotal: 4500,  activeCampaigns: 2 },
+  '203-456-7890': { spend: 2180,  clicks: 890,  impressions: 28400,  conversions: 28,  ctr: 3.13, cpc: 2.45, cpa: 77.86, roas: 5.1, budgetTotal: 2500,  activeCampaigns: 1 },
+};
+
 export const OVERVIEW_METRICS = {
   thisMonth: {
     spend: 28450,

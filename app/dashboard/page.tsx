@@ -1,168 +1,229 @@
 'use client';
-import { OVERVIEW_METRICS, DAILY_PERFORMANCE, DEVICE_DATA, HOURLY_DATA, CAMPAIGNS } from '@/lib/demo-data';
-import KPICard from '@/components/KPICard';
-import {
-  LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend,
-} from 'recharts';
-import { Calendar, RefreshCw, Download } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { MCC_ACCOUNTS, ACCOUNT_METRICS } from '@/lib/demo-data';
+import { Eye, EyeOff, TrendingUp, TrendingDown, ChevronRight, Search } from 'lucide-react';
 
-const pct = (a: number, b: number) => ((a - b) / b) * 100;
-const m = OVERVIEW_METRICS;
+const STORAGE_KEY = 'hidden-accounts';
 
-const COLORS = ['#3B82F6', '#10B981', '#8B5CF6'];
+function roasColor(roas: number) {
+  if (roas === 0) return 'text-white/20';
+  if (roas >= 4) return 'text-green-400';
+  if (roas >= 2.5) return 'text-yellow-400';
+  return 'text-red-400';
+}
+
+function roasBg(roas: number) {
+  if (roas === 0) return 'bg-white/[0.04]';
+  if (roas >= 4) return 'bg-green-500/10';
+  if (roas >= 2.5) return 'bg-yellow-500/10';
+  return 'bg-red-500/10';
+}
+
+function BudgetBar({ spend, budget }: { spend: number; budget: number }) {
+  const pct = budget > 0 ? Math.min((spend / budget) * 100, 100) : 0;
+  return (
+    <div className="w-full">
+      <div className="flex justify-between text-[10px] text-white/30 mb-1">
+        <span>{pct.toFixed(0)}% din buget</span>
+        <span>{budget.toLocaleString()}</span>
+      </div>
+      <div className="h-1 bg-white/[0.06] rounded-full overflow-hidden">
+        <div
+          className={`h-full rounded-full transition-all ${pct >= 95 ? 'bg-orange-500' : 'bg-blue-500'}`}
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 export default function Dashboard() {
-  const topCampaigns = [...CAMPAIGNS].sort((a, b) => b.spend - a.spend).slice(0, 5);
+  const [hidden, setHidden] = useState<Set<string>>(new Set());
+  const [search, setSearch] = useState('');
+  const [showHidden, setShowHidden] = useState(false);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setHidden(new Set(JSON.parse(saved)));
+    } catch {}
+  }, []);
+
+  function toggleHide(id: string) {
+    setHidden(prev => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));
+      return next;
+    });
+  }
+
+  const allAccounts = MCC_ACCOUNTS.flatMap(mcc =>
+    mcc.accounts.map(acc => ({ ...acc, mccName: mcc.name, mccId: mcc.id }))
+  );
+
+  const filtered = allAccounts.filter(acc => {
+    if (!showHidden && hidden.has(acc.id)) return false;
+    if (search && !acc.name.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  const visible = allAccounts.filter(acc => !hidden.has(acc.id));
+  const totalSpend = visible.reduce((s, acc) => s + (ACCOUNT_METRICS[acc.id]?.spend ?? 0), 0);
+  const totalConversions = visible.reduce((s, acc) => s + (ACCOUNT_METRICS[acc.id]?.conversions ?? 0), 0);
+  const totalClicks = visible.reduce((s, acc) => s + (ACCOUNT_METRICS[acc.id]?.clicks ?? 0), 0);
+  const avgRoas = visible.length > 0
+    ? visible.reduce((s, acc) => s + (ACCOUNT_METRICS[acc.id]?.roas ?? 0), 0) / visible.filter(a => (ACCOUNT_METRICS[a.id]?.roas ?? 0) > 0).length
+    : 0;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-white">Overview Dashboard</h1>
-          <p className="text-white/40 text-sm mt-0.5">Aprilie 2026 · Toate conturile</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] rounded-lg text-sm text-white/70 transition-colors">
-            <Calendar size={14} /> Apr 1 – Apr 29
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] rounded-lg text-sm text-white/70 transition-colors">
-            <RefreshCw size={14} /> Refresh
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm text-white font-semibold transition-colors">
-            <Download size={14} /> Export
-          </button>
+          <h1 className="text-xl font-bold text-white">Conturi MCC</h1>
+          <p className="text-white/40 text-sm mt-0.5">
+            {visible.length} conturi active · {hidden.size > 0 && `${hidden.size} ascunse`} · Aprilie 2026
+          </p>
         </div>
       </div>
 
-      {/* KPI Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-        <KPICard label="Cheltuieli" value={m.thisMonth.spend.toLocaleString()} prev={m.lastMonth.spend.toLocaleString()} change={pct(m.thisMonth.spend, m.lastMonth.spend)} prefix="RON " color="blue" />
-        <KPICard label="Click-uri" value={m.thisMonth.clicks.toLocaleString()} prev={m.lastMonth.clicks.toLocaleString()} change={pct(m.thisMonth.clicks, m.lastMonth.clicks)} color="teal" />
-        <KPICard label="Conversii" value={m.thisMonth.conversions.toString()} prev={m.lastMonth.conversions.toString()} change={pct(m.thisMonth.conversions, m.lastMonth.conversions)} color="green" />
-        <KPICard label="CPA" value={m.thisMonth.cpa.toFixed(2)} prev={m.lastMonth.cpa.toFixed(2)} change={-pct(m.thisMonth.cpa, m.lastMonth.cpa)} prefix="RON " color="purple" />
-        <KPICard label="ROAS" value={m.thisMonth.roas.toFixed(1)} prev={m.lastMonth.roas.toFixed(1)} change={pct(m.thisMonth.roas, m.lastMonth.roas)} suffix="x" color="orange" />
+      {/* Totals row */}
+      <div className="grid grid-cols-4 gap-4">
+        {[
+          { label: 'Total Spend', value: `RON ${totalSpend.toLocaleString()}`, sub: `${visible.length} conturi vizibile` },
+          { label: 'Total Clicks', value: totalClicks.toLocaleString(), sub: 'toate conturile' },
+          { label: 'Total Conversii', value: totalConversions.toString(), sub: 'toate conturile' },
+          { label: 'ROAS Mediu', value: avgRoas > 0 ? `${avgRoas.toFixed(1)}x` : '—', sub: 'conturi cu date' },
+        ].map(s => (
+          <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
+            <p className="text-white/40 text-xs uppercase tracking-wider mb-1">{s.label}</p>
+            <p className="text-white font-bold text-xl">{s.value}</p>
+            <p className="text-white/25 text-[10px] mt-0.5">{s.sub}</p>
+          </div>
+        ))}
       </div>
 
-      {/* Secondary KPIs */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-sm">CTR</div>
-          <div>
-            <p className="text-white font-bold text-lg">{m.thisMonth.ctr.toFixed(2)}%</p>
-            <p className="text-white/40 text-xs">Click-Through Rate</p>
-          </div>
+      {/* Controls */}
+      <div className="flex items-center gap-3">
+        <div className="relative flex-1 max-w-xs">
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <input
+            value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Caută cont..."
+            className="w-full pl-8 pr-4 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50"
+          />
         </div>
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 font-bold text-sm">CPC</div>
-          <div>
-            <p className="text-white font-bold text-lg">RON {m.thisMonth.cpc.toFixed(2)}</p>
-            <p className="text-white/40 text-xs">Cost Per Click</p>
-          </div>
-        </div>
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 flex items-center gap-4">
-          <div className="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center text-green-400 font-bold text-sm">CVR</div>
-          <div>
-            <p className="text-white font-bold text-lg">{m.thisMonth.convRate.toFixed(2)}%</p>
-            <p className="text-white/40 text-xs">Conversion Rate</p>
-          </div>
-        </div>
+        {hidden.size > 0 && (
+          <button
+            onClick={() => setShowHidden(v => !v)}
+            className="flex items-center gap-2 px-3 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-xs text-white/50 hover:text-white/80 transition-colors"
+          >
+            {showHidden ? <Eye size={13} /> : <EyeOff size={13} />}
+            {showHidden ? 'Ascunde' : `Arată`} {hidden.size} cont{hidden.size !== 1 ? 'uri' : ''} ascuns{hidden.size !== 1 ? 'e' : ''}
+          </button>
+        )}
       </div>
 
-      {/* Charts Row */}
-      <div className="grid grid-cols-3 gap-6">
-        {/* Spend + Conversions chart */}
-        <div className="col-span-2 bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
-          <div className="flex items-center justify-between mb-5">
-            <div>
-              <p className="text-white font-semibold">Spend & Conversii zilnice</p>
-              <p className="text-white/30 text-xs mt-0.5">Ultimele 14 zile</p>
+      {/* Accounts per MCC */}
+      {MCC_ACCOUNTS.map(mcc => {
+        const mccAccounts = filtered.filter(a => a.mccId === mcc.id);
+        if (mccAccounts.length === 0) return null;
+        return (
+          <div key={mcc.id} className="space-y-2">
+            <div className="flex items-center gap-3">
+              <p className="text-white/40 text-xs font-semibold uppercase tracking-wider">{mcc.name}</p>
+              <span className="text-white/20 text-xs">{mcc.customerId}</span>
+              <div className="flex-1 h-px bg-white/[0.05]" />
             </div>
-            <div className="flex items-center gap-4 text-xs">
-              <span className="flex items-center gap-1.5 text-white/40"><span className="w-3 h-0.5 bg-blue-400 inline-block rounded"/>Spend</span>
-              <span className="flex items-center gap-1.5 text-white/40"><span className="w-3 h-0.5 bg-green-400 inline-block rounded"/>Conversii</span>
+
+            <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden">
+              <table className="w-full">
+                <thead className="border-b border-white/[0.05]">
+                  <tr>
+                    <th className="text-left px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Cont</th>
+                    <th className="text-left px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Status</th>
+                    <th className="text-right px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Spend</th>
+                    <th className="text-right px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Clicks</th>
+                    <th className="text-right px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Conv.</th>
+                    <th className="text-right px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">CPA</th>
+                    <th className="text-right px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">ROAS</th>
+                    <th className="text-left px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Buget folosit</th>
+                    <th className="px-4 py-3 text-white/30 text-[10px] font-semibold uppercase tracking-wider">Camp.</th>
+                    <th className="px-3 py-3" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {mccAccounts.map((acc, i) => {
+                    const m = ACCOUNT_METRICS[acc.id];
+                    const isHidden = hidden.has(acc.id);
+                    return (
+                      <tr
+                        key={acc.id}
+                        className={`border-b border-white/[0.03] transition-colors
+                          ${isHidden ? 'opacity-40' : 'hover:bg-white/[0.02]'}
+                          ${i % 2 === 1 ? 'bg-white/[0.01]' : ''}`}
+                      >
+                        <td className="px-4 py-3.5">
+                          <div>
+                            <p className="text-white text-sm font-medium">{acc.name}</p>
+                            <p className="text-white/30 text-[10px] mt-0.5">{acc.id} · {acc.currency}</p>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3.5">
+                          <span className={`flex items-center gap-1.5 text-xs font-semibold w-fit ${acc.status === 'active' ? 'text-green-400' : 'text-white/30'}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${acc.status === 'active' ? 'bg-green-400' : 'bg-white/20'}`} />
+                            {acc.status === 'active' ? 'Activ' : 'Paused'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-right">
+                          <span className="text-white font-semibold text-sm">
+                            {m.spend > 0 ? `${acc.currency} ${m.spend.toLocaleString()}` : <span className="text-white/20">—</span>}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-right text-white/60 text-sm">{m.clicks > 0 ? m.clicks.toLocaleString() : '—'}</td>
+                        <td className="px-4 py-3.5 text-right text-white/60 text-sm">{m.conversions > 0 ? m.conversions : '—'}</td>
+                        <td className="px-4 py-3.5 text-right">
+                          <span className={`text-sm font-semibold ${m.cpa > 90 ? 'text-red-400' : m.cpa > 0 ? 'text-white/70' : 'text-white/20'}`}>
+                            {m.cpa > 0 ? `${acc.currency} ${m.cpa.toFixed(0)}` : '—'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 text-right">
+                          <span className={`text-sm font-bold px-2 py-0.5 rounded-full ${roasBg(m.roas)} ${roasColor(m.roas)}`}>
+                            {m.roas > 0 ? `${m.roas}x` : '—'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3.5 min-w-[140px]">
+                          <BudgetBar spend={m.spend} budget={m.budgetTotal} />
+                        </td>
+                        <td className="px-4 py-3.5 text-center">
+                          <span className={`text-xs font-semibold ${m.activeCampaigns > 0 ? 'text-white/60' : 'text-white/20'}`}>
+                            {m.activeCampaigns}
+                          </span>
+                        </td>
+                        <td className="px-3 py-3.5">
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => toggleHide(acc.id)}
+                              title={isHidden ? 'Arată contul' : 'Ascunde contul'}
+                              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-white/[0.08] text-white/30 hover:text-white/70 transition-colors"
+                            >
+                              {isHidden ? <EyeOff size={13} /> : <Eye size={13} />}
+                            </button>
+                            <button className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-white/[0.08] text-white/30 hover:text-white/70 transition-colors">
+                              <ChevronRight size={13} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           </div>
-          <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={DAILY_PERFORMANCE}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" />
-              <XAxis dataKey="date" tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis yAxisId="left" tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 11 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: '#1A1D27', border: '1px solid rgba(255,255,255,.1)', borderRadius: 8, color: '#fff', fontSize: 12 }} />
-              <Line yAxisId="left" type="monotone" dataKey="spend" stroke="#3B82F6" strokeWidth={2} dot={false} />
-              <Line yAxisId="right" type="monotone" dataKey="conversions" stroke="#10B981" strokeWidth={2} dot={false} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* Device Breakdown */}
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
-          <p className="text-white font-semibold mb-1">Device Breakdown</p>
-          <p className="text-white/30 text-xs mb-5">Clicks per dispozitiv</p>
-          <ResponsiveContainer width="100%" height={160}>
-            <PieChart>
-              <Pie data={DEVICE_DATA} cx="50%" cy="50%" innerRadius={50} outerRadius={75} dataKey="clicks" paddingAngle={3}>
-                {DEVICE_DATA.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}
-              </Pie>
-              <Tooltip contentStyle={{ background: '#1A1D27', border: '1px solid rgba(255,255,255,.1)', borderRadius: 8, color: '#fff', fontSize: 12 }} />
-            </PieChart>
-          </ResponsiveContainer>
-          <div className="space-y-2 mt-2">
-            {DEVICE_DATA.map((d, i) => (
-              <div key={d.device} className="flex items-center justify-between text-xs">
-                <span className="flex items-center gap-2 text-white/60">
-                  <span className="w-2 h-2 rounded-full inline-block" style={{ background: COLORS[i] }} />
-                  {d.device}
-                </span>
-                <span className="text-white font-semibold">{((d.clicks / DEVICE_DATA.reduce((s, x) => s + x.clicks, 0)) * 100).toFixed(0)}%</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom Row */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* Top Campaigns */}
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
-          <p className="text-white font-semibold mb-4">Top Campanii după Spend</p>
-          <div className="space-y-3">
-            {topCampaigns.map(c => (
-              <div key={c.id} className="flex items-center gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-white/80 text-xs font-medium truncate">{c.name}</span>
-                    <span className="text-white text-xs font-bold ml-2 flex-shrink-0">RON {c.spend.toLocaleString()}</span>
-                  </div>
-                  <div className="h-1.5 bg-white/[0.06] rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(c.spend / topCampaigns[0].spend) * 100}%` }} />
-                  </div>
-                </div>
-                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${c.roas >= 4 ? 'bg-green-500/15 text-green-400' : c.roas >= 2 ? 'bg-yellow-500/15 text-yellow-400' : 'bg-red-500/15 text-red-400'}`}>
-                  {c.roas > 0 ? `${c.roas}x` : 'N/A'}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Hourly Heatmap simplified */}
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
-          <p className="text-white font-semibold mb-1">Conversii per oră</p>
-          <p className="text-white/30 text-xs mb-4">Când convertesc utilizatorii</p>
-          <ResponsiveContainer width="100%" height={180}>
-            <BarChart data={HOURLY_DATA.filter((_, i) => i % 2 === 0)} barSize={12}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" vertical={false} />
-              <XAxis dataKey="hour" tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 10 }} axisLine={false} tickLine={false} tickFormatter={v => `${v}h`} />
-              <YAxis tick={{ fill: 'rgba(255,255,255,.3)', fontSize: 10 }} axisLine={false} tickLine={false} />
-              <Tooltip contentStyle={{ background: '#1A1D27', border: '1px solid rgba(255,255,255,.1)', borderRadius: 8, color: '#fff', fontSize: 12 }} />
-              <Bar dataKey="conversions" fill="#8B5CF6" radius={[4,4,0,0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
+        );
+      })}
     </div>
   );
 }
