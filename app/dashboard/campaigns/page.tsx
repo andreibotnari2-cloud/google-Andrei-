@@ -19,7 +19,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 function roasColor(roas: number) {
-  if (roas === 0) return 'text-white/30';
+  if (roas === 0) return 'text-slate-400';
   if (roas >= 4) return 'text-green-400';
   if (roas >= 2) return 'text-yellow-400';
   return 'text-red-400';
@@ -61,7 +61,7 @@ export default function CampaignsPage() {
   }
 
   const Th = ({ label, col }: { label: string; col: SortKey }) => (
-    <th className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-white/70 select-none whitespace-nowrap"
+    <th className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-slate-600 select-none whitespace-nowrap"
       onClick={() => toggleSort(col)}>
       <span className="flex items-center gap-1">{label}<SortIcon col={col} sortKey={sortKey} dir={sortDir} /></span>
     </th>
@@ -76,7 +76,7 @@ export default function CampaignsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-white">Campanii</h1>
-          <p className="text-white/40 text-sm mt-0.5">{sorted.length} campanii · Aprilie 2026</p>
+          <p className="text-slate-400 text-sm mt-0.5">{sorted.length} campanii · Aprilie 2026</p>
         </div>
       </div>
 
@@ -87,8 +87,8 @@ export default function CampaignsPage() {
           { label: 'Total Clicks', value: totalClicks.toLocaleString() },
           { label: 'Total Conversii', value: totalConversions.toString() },
         ].map(s => (
-          <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-            <p className="text-white/40 text-xs uppercase tracking-wider mb-1">{s.label}</p>
+          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4">
+            <p className="text-slate-400 text-xs uppercase tracking-wider mb-1">{s.label}</p>
             <p className="text-white font-bold text-xl">{s.value}</p>
           </div>
         ))}
@@ -97,37 +97,37 @@ export default function CampaignsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3 flex-wrap">
         <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Caută campanie..."
-            className="pl-8 pr-4 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 w-56" />
+            className="pl-8 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 w-56" />
         </div>
-        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
           {(['ALL', 'ENABLED', 'PAUSED'] as const).map(s => (
             <button key={s} onClick={() => setStatusFilter(s)}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${statusFilter === s ? 'bg-blue-600 text-white' : 'text-white/40 hover:text-white/70'}`}>
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${statusFilter === s ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-600'}`}>
               {s === 'ALL' ? 'Toate' : s === 'ENABLED' ? 'Active' : 'Paused'}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2">
-          <Filter size={14} className="text-white/30" />
+          <Filter size={14} className="text-slate-400" />
           <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)}
-            className="bg-white/[0.05] border border-white/[0.08] rounded-lg px-3 py-2 text-sm text-white/70 focus:outline-none focus:border-blue-500/50">
+            className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-600 focus:outline-none focus:border-blue-500/50">
             {allTypes.map(t => <option key={t} value={t} className="bg-[#1A1D27]">{t === 'ALL' ? 'Toate tipurile' : TYPE_LABELS[t] || t}</option>)}
           </select>
         </div>
       </div>
 
       {/* Table */}
-      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-white/[0.06]">
+            <thead className="border-b border-slate-200">
               <tr>
                 <Th label="Campanie" col="name" />
-                <th className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider">Tip</th>
-                <th className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider">Status</th>
+                <th className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider">Tip</th>
+                <th className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider">Status</th>
                 <Th label="Buget" col="spend" />
                 <Th label="Spend" col="spend" />
                 <Th label="Clicks" col="clicks" />
@@ -142,40 +142,40 @@ export default function CampaignsPage() {
               {sorted.map((c, i) => {
                 const budgetPct = c.budget > 0 ? Math.min((c.spend / c.budget) * 100, 100) : 0;
                 return (
-                  <tr key={c.id} className={`border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors ${i % 2 === 0 ? '' : 'bg-white/[0.01]'}`}>
+                  <tr key={c.id} className={`border-b border-slate-100 hover:bg-slate-50/50 transition-colors ${i % 2 === 0 ? '' : 'bg-slate-50/30'}`}>
                     <td className="px-4 py-3.5">
                       <div>
                         <p className="text-white text-sm font-medium">{c.name}</p>
-                        <p className="text-white/30 text-xs mt-0.5">{c.account}</p>
+                        <p className="text-slate-400 text-xs mt-0.5">{c.account}</p>
                       </div>
                     </td>
                     <td className="px-4 py-3.5">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${TYPE_COLORS[c.type] || 'bg-white/10 text-white/50'}`}>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${TYPE_COLORS[c.type] || 'bg-white/10 text-slate-500'}`}>
                         {TYPE_LABELS[c.type] || c.type}
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
-                      <span className={`flex items-center gap-1.5 text-xs font-semibold ${c.status === 'ENABLED' ? 'text-green-400' : 'text-white/30'}`}>
+                      <span className={`flex items-center gap-1.5 text-xs font-semibold ${c.status === 'ENABLED' ? 'text-green-400' : 'text-slate-400'}`}>
                         <span className={`w-1.5 h-1.5 rounded-full ${c.status === 'ENABLED' ? 'bg-green-400' : 'bg-white/20'}`} />
                         {c.status === 'ENABLED' ? 'Activ' : 'Paused'}
                       </span>
                     </td>
                     <td className="px-4 py-3.5">
                       <div className="min-w-[80px]">
-                        <p className="text-white/60 text-xs mb-1">RON {c.budget}</p>
-                        <div className="h-1 bg-white/[0.06] rounded-full overflow-hidden w-16">
+                        <p className="text-slate-500 text-xs mb-1">RON {c.budget}</p>
+                        <div className="h-1 bg-slate-100 rounded-full overflow-hidden w-16">
                           <div className={`h-full rounded-full ${budgetPct >= 100 ? 'bg-orange-500' : 'bg-blue-500'}`} style={{ width: `${budgetPct}%` }} />
                         </div>
-                        <p className="text-white/30 text-[10px] mt-0.5">{budgetPct.toFixed(0)}% folosit</p>
+                        <p className="text-slate-400 text-[10px] mt-0.5">{budgetPct.toFixed(0)}% folosit</p>
                       </div>
                     </td>
                     <td className="px-4 py-3.5 text-white text-sm font-semibold">
                       {c.spend > 0 ? `RON ${c.spend.toLocaleString()}` : <span className="text-white/20">—</span>}
                     </td>
-                    <td className="px-4 py-3.5 text-white/70 text-sm">{c.clicks.toLocaleString()}</td>
-                    <td className="px-4 py-3.5 text-white/70 text-sm">{c.ctr.toFixed(2)}%</td>
-                    <td className="px-4 py-3.5 text-white/70 text-sm">{c.conversions}</td>
-                    <td className="px-4 py-3.5 text-white/70 text-sm">
+                    <td className="px-4 py-3.5 text-slate-600 text-sm">{c.clicks.toLocaleString()}</td>
+                    <td className="px-4 py-3.5 text-slate-600 text-sm">{c.ctr.toFixed(2)}%</td>
+                    <td className="px-4 py-3.5 text-slate-600 text-sm">{c.conversions}</td>
+                    <td className="px-4 py-3.5 text-slate-600 text-sm">
                       {c.cpa > 0 ? `RON ${c.cpa.toFixed(2)}` : <span className="text-white/20">—</span>}
                     </td>
                     <td className="px-4 py-3.5">
@@ -188,7 +188,7 @@ export default function CampaignsPage() {
                         <div className="flex items-center gap-1.5">
                           <div className="flex gap-0.5">
                             {Array.from({ length: 10 }).map((_, qi) => (
-                              <div key={qi} className={`w-1 h-3 rounded-sm ${qi < c.qualityScore! ? (c.qualityScore! >= 7 ? 'bg-green-500' : c.qualityScore! >= 5 ? 'bg-yellow-500' : 'bg-red-500') : 'bg-white/[0.08]'}`} />
+                              <div key={qi} className={`w-1 h-3 rounded-sm ${qi < c.qualityScore! ? (c.qualityScore! >= 7 ? 'bg-green-500' : c.qualityScore! >= 5 ? 'bg-yellow-500' : 'bg-red-500') : 'bg-slate-100'}`} />
                             ))}
                           </div>
                           <span className={`text-xs font-bold ${c.qualityScore >= 7 ? 'text-green-400' : c.qualityScore >= 5 ? 'text-yellow-400' : 'text-red-400'}`}>
@@ -206,7 +206,7 @@ export default function CampaignsPage() {
           </table>
         </div>
         {sorted.length === 0 && (
-          <div className="text-center py-12 text-white/30 text-sm">Nicio campanie găsită</div>
+          <div className="text-center py-12 text-slate-400 text-sm">Nicio campanie găsită</div>
         )}
       </div>
     </div>

@@ -4,10 +4,10 @@ export const MCC_ACCOUNTS = [
     name: 'Andrei Botnari - MCC',
     customerId: '438-313-0098',
     accounts: [
-      { id: '101-234-5678', name: 'ShiftyAds - eCommerce RO', currency: 'RON', status: 'active' },
-      { id: '102-345-6789', name: 'Client Auto MD', currency: 'MDL', status: 'active' },
-      { id: '103-456-7890', name: 'Imobiliare Chișinău', currency: 'MDL', status: 'active' },
-      { id: '104-567-8901', name: 'Fashion Store RO', currency: 'RON', status: 'paused' },
+      { id: '101-234-5678', name: 'ShiftyAds - eCommerce RO', currency: 'RON', status: 'active', paymentStatus: 'paid' },
+      { id: '102-345-6789', name: 'Client Auto MD', currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '103-456-7890', name: 'Imobiliare Chișinău', currency: 'MDL', status: 'active', paymentStatus: 'stopped' },
+      { id: '104-567-8901', name: 'Fashion Store RO', currency: 'RON', status: 'paused', paymentStatus: 'stopped' },
     ],
   },
   {
@@ -15,9 +15,9 @@ export const MCC_ACCOUNTS = [
     name: 'MCC Secundar',
     customerId: '521-445-1122',
     accounts: [
-      { id: '201-234-5678', name: 'Travel Agency MD', currency: 'MDL', status: 'active' },
-      { id: '202-345-6789', name: 'Restaurant Chain RO', currency: 'RON', status: 'active' },
-      { id: '203-456-7890', name: 'Edu Platform', currency: 'EUR', status: 'active' },
+      { id: '201-234-5678', name: 'Travel Agency MD', currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '202-345-6789', name: 'Restaurant Chain RO', currency: 'RON', status: 'active', paymentStatus: 'paid' },
+      { id: '203-456-7890', name: 'Edu Platform', currency: 'EUR', status: 'active', paymentStatus: 'paid' },
     ],
   },
 ];

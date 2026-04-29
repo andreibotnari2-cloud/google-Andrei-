@@ -57,7 +57,7 @@ export default function KeywordsPage() {
 
   const Th = ({ label, col }: { label: string; col: SortKey }) => (
     <th onClick={() => toggleSort(col)}
-      className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-white/70 select-none whitespace-nowrap">
+      className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider cursor-pointer hover:text-slate-600 select-none whitespace-nowrap">
       <span className="flex items-center gap-1">{label}<SortIcon col={col} sortKey={sortKey} dir={sortDir} /></span>
     </th>
   );
@@ -66,7 +66,7 @@ export default function KeywordsPage() {
     <div className="p-6 space-y-5">
       <div>
         <h1 className="text-xl font-bold text-white">Keywords</h1>
-        <p className="text-white/40 text-sm mt-0.5">{filtered.length} keywords · Aprilie 2026</p>
+        <p className="text-slate-400 text-sm mt-0.5">{filtered.length} keywords · Aprilie 2026</p>
       </div>
 
       {/* Alert cards */}
@@ -75,20 +75,20 @@ export default function KeywordsPage() {
           <AlertTriangle size={18} className="text-red-400 mt-0.5 flex-shrink-0" />
           <div>
             <p className="text-red-400 font-semibold text-sm">Spend risipit</p>
-            <p className="text-white/60 text-xs mt-0.5">RON {wastedSpend.toFixed(0)} cheltuiți pe keywords cu QS ≤ 4 luna aceasta</p>
+            <p className="text-slate-500 text-xs mt-0.5">RON {wastedSpend.toFixed(0)} cheltuiți pe keywords cu QS ≤ 4 luna aceasta</p>
           </div>
         </div>
         <div className="bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-4 flex items-start gap-3">
           <TrendingDown size={18} className="text-yellow-400 mt-0.5 flex-shrink-0" />
           <div>
             <p className="text-yellow-400 font-semibold text-sm">Quality Score scăzut</p>
-            <p className="text-white/60 text-xs mt-0.5">{lowQsCount} keywords cu QS sub 5 — afectează CPC și poziția anunțului</p>
+            <p className="text-slate-500 text-xs mt-0.5">{lowQsCount} keywords cu QS sub 5 — afectează CPC și poziția anunțului</p>
           </div>
         </div>
       </div>
 
       {/* QS Distribution */}
-      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
+      <div className="bg-white border border-slate-200 rounded-xl p-5">
         <p className="text-white font-semibold mb-4">Distribuție Quality Score</p>
         <div className="flex items-end gap-2 h-20">
           {Array.from({ length: 10 }, (_, i) => i + 1).map(score => {
@@ -97,13 +97,13 @@ export default function KeywordsPage() {
             const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
             return (
               <div key={score} className="flex-1 flex flex-col items-center gap-1">
-                <span className="text-white/40 text-[9px]">{count > 0 ? count : ''}</span>
+                <span className="text-slate-400 text-[9px]">{count > 0 ? count : ''}</span>
                 <div className="w-full rounded-t-sm transition-all" style={{
                   height: `${Math.max(height, count > 0 ? 8 : 0)}%`,
                   background: score >= 7 ? '#10B981' : score >= 5 ? '#F59E0B' : '#EF4444',
                   opacity: count === 0 ? 0.15 : 1,
                 }} />
-                <span className="text-white/40 text-[9px]">{score}</span>
+                <span className="text-slate-400 text-[9px]">{score}</span>
               </div>
             );
           })}
@@ -113,15 +113,15 @@ export default function KeywordsPage() {
       {/* Filters */}
       <div className="flex items-center gap-3">
         <div className="relative">
-          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30" />
+          <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Caută keyword..."
-            className="pl-8 pr-4 py-2 bg-white/[0.05] border border-white/[0.08] rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 w-56" />
+            className="pl-8 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-white placeholder-white/30 focus:outline-none focus:border-blue-500/50 w-56" />
         </div>
-        <div className="flex items-center gap-1 bg-white/[0.04] border border-white/[0.06] rounded-lg p-1">
+        <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded-lg p-1">
           {['ALL', 'EXACT', 'PHRASE', 'BROAD'].map(m => (
             <button key={m} onClick={() => setMatchFilter(m)}
-              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${matchFilter === m ? 'bg-blue-600 text-white' : 'text-white/40 hover:text-white/70'}`}>
+              className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${matchFilter === m ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-600'}`}>
               {m === 'ALL' ? 'Toate' : m}
             </button>
           ))}
@@ -129,14 +129,14 @@ export default function KeywordsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="border-b border-white/[0.06]">
+            <thead className="border-b border-slate-200">
               <tr>
                 <Th label="Keyword" col="keyword" />
-                <th className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider">Match</th>
-                <th className="text-left px-4 py-3 text-white/40 text-xs font-semibold uppercase tracking-wider">Campanie</th>
+                <th className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider">Match</th>
+                <th className="text-left px-4 py-3 text-slate-400 text-xs font-semibold uppercase tracking-wider">Campanie</th>
                 <Th label="QS" col="qualityScore" />
                 <Th label="Clicks" col="clicks" />
                 <Th label="CTR" col="ctr" />
@@ -148,35 +148,35 @@ export default function KeywordsPage() {
             </thead>
             <tbody>
               {filtered.map((k, i) => (
-                <tr key={k.id} className={`border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors ${i % 2 === 0 ? '' : 'bg-white/[0.01]'}`}>
+                <tr key={k.id} className={`border-b border-slate-100 hover:bg-slate-50/50 transition-colors ${i % 2 === 0 ? '' : 'bg-slate-50/30'}`}>
                   <td className="px-4 py-3.5">
                     <span className="text-white text-sm font-mono">{k.keyword}</span>
                   </td>
                   <td className="px-4 py-3.5">
                     <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${MATCH_COLORS[k.matchType] || ''}`}>{k.matchType}</span>
                   </td>
-                  <td className="px-4 py-3.5 text-white/40 text-xs max-w-[180px] truncate">{k.campaignName}</td>
+                  <td className="px-4 py-3.5 text-slate-400 text-xs max-w-[180px] truncate">{k.campaignName}</td>
                   <td className="px-4 py-3.5">
                     <div className="flex items-center gap-2">
                       <div className="flex gap-0.5">
                         {Array.from({ length: 10 }).map((_, qi) => (
-                          <div key={qi} className={`w-1 h-3 rounded-sm ${qi < k.qualityScore ? (k.qualityScore >= 7 ? 'bg-green-500' : k.qualityScore >= 5 ? 'bg-yellow-500' : 'bg-red-500') : 'bg-white/[0.08]'}`} />
+                          <div key={qi} className={`w-1 h-3 rounded-sm ${qi < k.qualityScore ? (k.qualityScore >= 7 ? 'bg-green-500' : k.qualityScore >= 5 ? 'bg-yellow-500' : 'bg-red-500') : 'bg-slate-100'}`} />
                         ))}
                       </div>
                       <span className={`text-sm font-bold ${qsColor(k.qualityScore)}`}>{k.qualityScore}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3.5 text-white/70 text-sm">{k.clicks.toLocaleString()}</td>
-                  <td className="px-4 py-3.5 text-white/70 text-sm">{k.ctr.toFixed(2)}%</td>
-                  <td className="px-4 py-3.5 text-white/70 text-sm">RON {k.cpc.toFixed(2)}</td>
-                  <td className="px-4 py-3.5 text-white/70 text-sm">{k.conversions}</td>
+                  <td className="px-4 py-3.5 text-slate-600 text-sm">{k.clicks.toLocaleString()}</td>
+                  <td className="px-4 py-3.5 text-slate-600 text-sm">{k.ctr.toFixed(2)}%</td>
+                  <td className="px-4 py-3.5 text-slate-600 text-sm">RON {k.cpc.toFixed(2)}</td>
+                  <td className="px-4 py-3.5 text-slate-600 text-sm">{k.conversions}</td>
                   <td className="px-4 py-3.5">
                     <span className={`text-sm font-semibold ${k.cpa > 50 ? 'text-red-400' : k.cpa > 20 ? 'text-yellow-400' : 'text-green-400'}`}>
                       RON {k.cpa.toFixed(2)}
                     </span>
                   </td>
                   <td className="px-4 py-3.5">
-                    <span className={`text-sm font-semibold ${k.qualityScore <= 4 ? 'text-red-400' : 'text-white/70'}`}>
+                    <span className={`text-sm font-semibold ${k.qualityScore <= 4 ? 'text-red-400' : 'text-slate-600'}`}>
                       RON {k.spend.toFixed(1)}
                     </span>
                   </td>

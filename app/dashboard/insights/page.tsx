@@ -16,7 +16,7 @@ const COLOR_MAP = {
 const IMPACT_COLORS: Record<string, string> = {
   high: 'bg-orange-500/15 text-orange-400',
   medium: 'bg-yellow-500/15 text-yellow-400',
-  low: 'bg-white/10 text-white/40',
+  low: 'bg-white/10 text-slate-400',
 };
 
 export default function InsightsPage() {
@@ -29,7 +29,7 @@ export default function InsightsPage() {
     <div className="p-6 space-y-6">
       <div>
         <h1 className="text-xl font-bold text-white">Recomandări & Insights</h1>
-        <p className="text-white/40 text-sm mt-0.5">Analiză automată · {RECOMMENDATIONS.length} recomandări active</p>
+        <p className="text-slate-400 text-sm mt-0.5">Analiză automată · {RECOMMENDATIONS.length} recomandări active</p>
       </div>
 
       {/* Score overview */}
@@ -40,17 +40,17 @@ export default function InsightsPage() {
           { label: 'Spend risipit', value: `RON ${wastedSpend.toFixed(0)}`, suffix: '', color: 'text-orange-400', sub: 'QS ≤ 4' },
           { label: 'Campanii Top', value: String(highRoasCampaigns.length), suffix: '', color: 'text-green-400', sub: 'ROAS ≥ 4x' },
         ].map(s => (
-          <div key={s.label} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4">
-            <p className="text-white/40 text-xs uppercase tracking-wider mb-2">{s.label}</p>
-            <p className={`font-bold text-2xl ${s.color}`}>{s.value}<span className="text-sm text-white/30">{s.suffix}</span></p>
-            <p className="text-white/30 text-xs mt-1">{s.sub}</p>
+          <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4">
+            <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">{s.label}</p>
+            <p className={`font-bold text-2xl ${s.color}`}>{s.value}<span className="text-sm text-slate-400">{s.suffix}</span></p>
+            <p className="text-slate-400 text-xs mt-1">{s.sub}</p>
           </div>
         ))}
       </div>
 
       {/* Recommendations list */}
       <div className="space-y-3">
-        <p className="text-white font-semibold text-sm uppercase tracking-wider text-white/50">Recomandări automate</p>
+        <p className="text-white font-semibold text-sm uppercase tracking-wider text-slate-500">Recomandări automate</p>
         {RECOMMENDATIONS.map((r, i) => {
           const c = COLOR_MAP[r.type as keyof typeof COLOR_MAP] || COLOR_MAP.info;
           const Icon = ICON_MAP[r.type as keyof typeof ICON_MAP] || Info;
@@ -68,8 +68,8 @@ export default function InsightsPage() {
                         {r.impact.toUpperCase()}
                       </span>
                     </div>
-                    <p className="text-white/50 text-sm">{r.description}</p>
-                    <p className="text-white/30 text-xs mt-1.5 flex items-center gap-1">
+                    <p className="text-slate-500 text-sm">{r.description}</p>
+                    <p className="text-slate-400 text-xs mt-1.5 flex items-center gap-1">
                       <Zap size={11} /> {r.campaign}
                     </p>
                   </div>
@@ -85,24 +85,24 @@ export default function InsightsPage() {
 
       {/* Quick stats */}
       <div className="grid grid-cols-2 gap-6">
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
+        <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <TrendingDown size={16} className="text-red-400" />
             <p className="text-white font-semibold text-sm">Top Keyword — CPA Ridicat</p>
           </div>
           <div className="space-y-3">
             <div>
-              <p className="text-white/40 text-xs">Keyword</p>
+              <p className="text-slate-400 text-xs">Keyword</p>
               <p className="text-white font-mono text-sm mt-0.5">"{topKeyword.keyword}"</p>
             </div>
             <div className="grid grid-cols-3 gap-3">
               {[
                 { label: 'CPA', value: `RON ${topKeyword.cpa.toFixed(2)}`, color: 'text-red-400' },
                 { label: 'Spend', value: `RON ${topKeyword.spend.toFixed(0)}`, color: 'text-orange-400' },
-                { label: 'Conv.', value: String(topKeyword.conversions), color: 'text-white/70' },
+                { label: 'Conv.', value: String(topKeyword.conversions), color: 'text-slate-600' },
               ].map(s => (
-                <div key={s.label} className="bg-white/[0.03] rounded-lg p-2.5">
-                  <p className="text-white/30 text-[10px]">{s.label}</p>
+                <div key={s.label} className="bg-white rounded-lg p-2.5">
+                  <p className="text-slate-400 text-[10px]">{s.label}</p>
                   <p className={`font-bold text-sm mt-0.5 ${s.color}`}>{s.value}</p>
                 </div>
               ))}
@@ -110,24 +110,24 @@ export default function InsightsPage() {
           </div>
         </div>
 
-        <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-5">
+        <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp size={16} className="text-green-400" />
             <p className="text-white font-semibold text-sm">Top Campanie — ROAS</p>
           </div>
           <div className="space-y-3">
             <div>
-              <p className="text-white/40 text-xs">Campanie</p>
+              <p className="text-slate-400 text-xs">Campanie</p>
               <p className="text-white text-sm mt-0.5 font-medium">{topCampaign.name}</p>
             </div>
             <div className="grid grid-cols-3 gap-3">
               {[
                 { label: 'ROAS', value: `${topCampaign.roas}x`, color: 'text-green-400' },
                 { label: 'CPA', value: `RON ${topCampaign.cpa.toFixed(2)}`, color: 'text-green-400' },
-                { label: 'Conv.', value: String(topCampaign.conversions), color: 'text-white/70' },
+                { label: 'Conv.', value: String(topCampaign.conversions), color: 'text-slate-600' },
               ].map(s => (
-                <div key={s.label} className="bg-white/[0.03] rounded-lg p-2.5">
-                  <p className="text-white/30 text-[10px]">{s.label}</p>
+                <div key={s.label} className="bg-white rounded-lg p-2.5">
+                  <p className="text-slate-400 text-[10px]">{s.label}</p>
                   <p className={`font-bold text-sm mt-0.5 ${s.color}`}>{s.value}</p>
                 </div>
               ))}
