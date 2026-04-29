@@ -1,23 +1,20 @@
 export const MCC_ACCOUNTS = [
   {
-    id: 'mcc-438-313-0098',
-    name: 'Andrei Botnari - MCC',
-    customerId: '438-313-0098',
+    id: 'mcc-274-086-4348',
+    name: 'Schwiftyads-MCC',
+    customerId: '274-086-4348',
     accounts: [
-      { id: '101-234-5678', name: 'ShiftyAds - eCommerce RO', currency: 'RON', status: 'active', paymentStatus: 'paid' },
-      { id: '102-345-6789', name: 'Client Auto MD', currency: 'MDL', status: 'active', paymentStatus: 'paid' },
-      { id: '103-456-7890', name: 'Imobiliare Chișinău', currency: 'MDL', status: 'active', paymentStatus: 'stopped' },
-      { id: '104-567-8901', name: 'Fashion Store RO', currency: 'RON', status: 'paused', paymentStatus: 'stopped' },
-    ],
-  },
-  {
-    id: 'mcc-secondary',
-    name: 'MCC Secundar',
-    customerId: '521-445-1122',
-    accounts: [
-      { id: '201-234-5678', name: 'Travel Agency MD', currency: 'MDL', status: 'active', paymentStatus: 'paid' },
-      { id: '202-345-6789', name: 'Restaurant Chain RO', currency: 'RON', status: 'active', paymentStatus: 'paid' },
-      { id: '203-456-7890', name: 'Edu Platform', currency: 'EUR', status: 'active', paymentStatus: 'paid' },
+      { id: '183-473-0014', name: 'BoardShop.MD',       currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '542-339-5360', name: 'Lagmar',              currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '622-030-8778', name: 'Little Dent',         currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '412-048-6196', name: 'Metalica Zuev',       currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '150-945-9631', name: 'Orthodontica.md',     currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '462-332-1254', name: 'Profilactix',         currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '984-594-5688', name: 'SUPRATEN Bussines',   currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '751-564-5708', name: 'StarNet',             currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '415-655-2227', name: 'Top Estate',          currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '337-121-6713', name: 'Work Finder EU',      currency: 'MDL', status: 'active', paymentStatus: 'paid' },
+      { id: '644-444-9213', name: 'XAuto',               currency: 'MDL', status: 'active', paymentStatus: 'paid' },
     ],
   },
 ];
@@ -35,28 +32,27 @@ export type AccountData = {
 };
 
 export const ACCOUNT_METRICS: Record<string, AccountData> = {
-  '101-234-5678': {
-    spend: 18420, prevSpend: 15680, clicks: 9840, impressions: 284200, ctr: 3.46, cpc: 1.87,
-    conversions: 218, prevConversions: 289, cpa: 84.50, prevCpa: 54.25,
-    convRate: 2.22, searchImprShare: 68.4, avgPosition: 2.1,
-    budgetTotal: 24000, activeCampaigns: 3,
+  '183-473-0014': { // BoardShop.MD
+    spend: 8420, prevSpend: 7180, clicks: 4240, impressions: 128400, ctr: 3.30, cpc: 1.99,
+    conversions: 94, prevConversions: 118, cpa: 89.57, prevCpa: 60.85,
+    convRate: 2.22, searchImprShare: 61.4, avgPosition: 2.3,
+    budgetTotal: 10000, activeCampaigns: 3,
     convCategories: [
-      { name: 'Achiziții', conversions: 142, prevConversions: 198, cost: 47.80 },
-      { name: 'Formulare', conversions: 58,  prevConversions: 68,  cost: 112.50 },
-      { name: 'Apeluri',   conversions: 18,  prevConversions: 23,  cost: 182.00 },
+      { name: 'Achiziții', conversions: 64, prevConversions: 84, cost: 74.22 },
+      { name: 'Formulare', conversions: 30, prevConversions: 34, cost: 124.00 },
     ],
   },
-  '102-345-6789': {
+  '542-339-5360': { // Lagmar
     spend: 5240, prevSpend: 4820, clicks: 2680, impressions: 74800, ctr: 3.58, cpc: 1.96,
     conversions: 62, prevConversions: 71, cpa: 84.52, prevCpa: 67.89,
     convRate: 2.31, searchImprShare: 54.2, avgPosition: 2.8,
     budgetTotal: 6000, activeCampaigns: 2,
     convCategories: [
-      { name: 'Lead-uri',  conversions: 42, prevConversions: 51, cost: 72.40 },
+      { name: 'Lead-uri', conversions: 42, prevConversions: 51, cost: 72.40 },
       { name: 'Apeluri',  conversions: 20, prevConversions: 20, cost: 120.00 },
     ],
   },
-  '103-456-7890': {
+  '622-030-8778': { // Little Dent
     spend: 3280, prevSpend: 2940, clicks: 1540, impressions: 98200, ctr: 1.57, cpc: 2.13,
     conversions: 38, prevConversions: 42, cpa: 86.32, prevCpa: 70.00,
     convRate: 2.47, searchImprShare: 41.8, avgPosition: 3.4,
@@ -65,40 +61,86 @@ export const ACCOUNT_METRICS: Record<string, AccountData> = {
       { name: 'Formulare contact', conversions: 38, prevConversions: 42, cost: 86.32 },
     ],
   },
-  '104-567-8901': {
-    spend: 0, prevSpend: 6240, clicks: 0, impressions: 0, ctr: 0, cpc: 0,
-    conversions: 0, prevConversions: 84, cpa: 0, prevCpa: 74.29,
-    convRate: 0, searchImprShare: 0, avgPosition: 0,
-    budgetTotal: 8000, activeCampaigns: 0,
-    convCategories: [],
+  '412-048-6196': { // Metalica Zuev
+    spend: 4120, prevSpend: 3680, clicks: 1820, impressions: 64200, ctr: 2.83, cpc: 2.26,
+    conversions: 44, prevConversions: 52, cpa: 93.64, prevCpa: 70.77,
+    convRate: 2.42, searchImprShare: 47.6, avgPosition: 3.1,
+    budgetTotal: 5000, activeCampaigns: 2,
+    convCategories: [
+      { name: 'Apeluri',  conversions: 28, prevConversions: 34, cost: 88.00 },
+      { name: 'Formulare', conversions: 16, prevConversions: 18, cost: 105.00 },
+    ],
   },
-  '201-234-5678': {
-    spend: 4820, prevSpend: 4210, clicks: 2240, impressions: 62400, ctr: 3.59, cpc: 2.15,
+  '150-945-9631': { // Orthodontica.md
+    spend: 6840, prevSpend: 5920, clicks: 3120, impressions: 94600, ctr: 3.30, cpc: 2.19,
+    conversions: 78, prevConversions: 89, cpa: 87.69, prevCpa: 66.52,
+    convRate: 2.50, searchImprShare: 58.3, avgPosition: 2.4,
+    budgetTotal: 8000, activeCampaigns: 3,
+    convCategories: [
+      { name: 'Programări', conversions: 58, prevConversions: 68, cost: 72.41 },
+      { name: 'Apeluri',    conversions: 20, prevConversions: 21, cost: 132.00 },
+    ],
+  },
+  '462-332-1254': { // Profilactix
+    spend: 2940, prevSpend: 2640, clicks: 1340, impressions: 48200, ctr: 2.78, cpc: 2.19,
+    conversions: 32, prevConversions: 38, cpa: 91.88, prevCpa: 69.47,
+    convRate: 2.39, searchImprShare: 43.2, avgPosition: 3.2,
+    budgetTotal: 3500, activeCampaigns: 1,
+    convCategories: [
+      { name: 'Formulare', conversions: 32, prevConversions: 38, cost: 91.88 },
+    ],
+  },
+  '984-594-5688': { // SUPRATEN Bussines
+    spend: 12480, prevSpend: 10840, clicks: 5820, impressions: 186400, ctr: 3.12, cpc: 2.14,
+    conversions: 138, prevConversions: 162, cpa: 90.43, prevCpa: 66.91,
+    convRate: 2.37, searchImprShare: 55.8, avgPosition: 2.6,
+    budgetTotal: 15000, activeCampaigns: 4,
+    convCategories: [
+      { name: 'Lead-uri B2B', conversions: 84,  prevConversions: 102, cost: 84.29 },
+      { name: 'Apeluri',      conversions: 38,  prevConversions: 42,  cost: 108.00 },
+      { name: 'Formulare',    conversions: 16,  prevConversions: 18,  cost: 124.00 },
+    ],
+  },
+  '751-564-5708': { // StarNet
+    spend: 18420, prevSpend: 15680, clicks: 8840, impressions: 284200, ctr: 3.11, cpc: 2.08,
+    conversions: 198, prevConversions: 241, cpa: 93.03, prevCpa: 65.06,
+    convRate: 2.24, searchImprShare: 63.4, avgPosition: 2.1,
+    budgetTotal: 22000, activeCampaigns: 5,
+    convCategories: [
+      { name: 'Abonamente Internet', conversions: 128, prevConversions: 158, cost: 82.03 },
+      { name: 'Apeluri',             conversions: 48,  prevConversions: 58,  cost: 118.00 },
+      { name: 'Formulare contact',   conversions: 22,  prevConversions: 25,  cost: 142.00 },
+    ],
+  },
+  '415-655-2227': { // Top Estate
+    spend: 4820, prevSpend: 4210, clicks: 2040, impressions: 72400, ctr: 2.82, cpc: 2.36,
     conversions: 52, prevConversions: 61, cpa: 92.69, prevCpa: 69.02,
-    convRate: 2.32, searchImprShare: 49.6, avgPosition: 2.5,
-    budgetTotal: 5500, activeCampaigns: 2,
+    convRate: 2.55, searchImprShare: 49.6, avgPosition: 2.7,
+    budgetTotal: 6000, activeCampaigns: 2,
     convCategories: [
-      { name: 'Rezervări',  conversions: 34, prevConversions: 41, cost: 78.50 },
-      { name: 'Formulare',  conversions: 18, prevConversions: 20, cost: 130.00 },
+      { name: 'Vizionări proprietăți', conversions: 34, prevConversions: 41, cost: 78.50 },
+      { name: 'Formulare contact',     conversions: 18, prevConversions: 20, cost: 130.00 },
     ],
   },
-  '202-345-6789': {
-    spend: 3940, prevSpend: 3580, clicks: 1920, impressions: 54600, ctr: 3.52, cpc: 2.05,
+  '337-121-6713': { // Work Finder EU
+    spend: 3940, prevSpend: 3580, clicks: 1820, impressions: 64600, ctr: 2.82, cpc: 2.16,
     conversions: 41, prevConversions: 48, cpa: 96.10, prevCpa: 74.58,
-    convRate: 2.14, searchImprShare: 52.1, avgPosition: 2.9,
-    budgetTotal: 4500, activeCampaigns: 2,
+    convRate: 2.25, searchImprShare: 44.1, avgPosition: 3.0,
+    budgetTotal: 5000, activeCampaigns: 2,
     convCategories: [
-      { name: 'Comenzi',   conversions: 27, prevConversions: 32, cost: 84.00 },
-      { name: 'Apeluri',   conversions: 14, prevConversions: 16, cost: 121.00 },
+      { name: 'CV-uri trimise', conversions: 27, prevConversions: 32, cost: 84.00 },
+      { name: 'Apeluri',        conversions: 14, prevConversions: 16, cost: 121.00 },
     ],
   },
-  '203-456-7890': {
-    spend: 2180, prevSpend: 1940, clicks: 890, impressions: 28400, ctr: 3.13, cpc: 2.45,
-    conversions: 28, prevConversions: 31, cpa: 77.86, prevCpa: 62.58,
-    convRate: 3.15, searchImprShare: 61.3, avgPosition: 2.2,
-    budgetTotal: 2500, activeCampaigns: 1,
+  '644-444-9213': { // XAuto
+    spend: 7180, prevSpend: 6240, clicks: 3240, impressions: 108400, ctr: 2.99, cpc: 2.22,
+    conversions: 82, prevConversions: 96, cpa: 87.56, prevCpa: 65.00,
+    convRate: 2.53, searchImprShare: 57.2, avgPosition: 2.5,
+    budgetTotal: 9000, activeCampaigns: 3,
     convCategories: [
-      { name: 'Înscrieri curs', conversions: 28, prevConversions: 31, cost: 77.86 },
+      { name: 'Test drive',     conversions: 42, prevConversions: 51, cost: 78.00 },
+      { name: 'Formulare',      conversions: 28, prevConversions: 32, cost: 98.00 },
+      { name: 'Apeluri',        conversions: 12, prevConversions: 13, cost: 142.00 },
     ],
   },
 };
